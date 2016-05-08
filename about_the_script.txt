@@ -1,0 +1,36 @@
+The main part is crystal_knows_scraper.py everything else is the REST server. There is a readme.txt file with the installation instructions for the script.
+
+I have set up a demo server at http://104.196.48.55/ you can make requests to it like this:
+
+Using HTTPie:
+http --json POST http://104.196.48.55/ first_name="Taylor" last_name="Swift"
+
+Curl will work as well:
+curl -H "Content-Type: application/json" -X POST -d '{"first_name":"Taylor","last_name":"Swift"}' http://104.196.48.55/
+
+For a demo of how the script works without the rest server you can run (you need selenium, apt-get install python-pip, pip install selenium):
+python crystal_knows_scraper.py
+and type:
+test()
+
+It does not extract much information, this is because you need a pro account for the info to be displayed. I talked to Michael about this, he seemed to say that a trial version is sufficent for the time being. The script extracts the info from the second page (see picture), it is not difficult to extend it to the 3rd page in the future.
+
+If you think such scripts would be of use to you, then let Michael know, and we can work together on some of the other scripts that he has. If not, then not.
+
+The script returns a JSON output, I am guessing elastic search would accept this data. 
+
+If you would like to work with me, I could work on the following aspects of the scripts:
+
+1. The scraper:
+- Currently when a request is made it opens a browser session and makes the search. It takes about 10-20sec, gets the required info and then closes the session. This works good if making ad-hoc requests. It would proabably be possible to modify the script to leave the session open,
+and make requests without repeating the logging phase. 
+- Could do some better error handling, currently it returns an error message as part of the json "about person" output. Could return error codes in different fields, provide more usefull error messages
+- Could implement proxy support, but it is not right way. The better way would be to set these scripts up on multiple servers. Michael did not really tell me alot about what your trying to do, but I have a feeling you dont need to make alot of requests? Perhaps 3-4 an hour? In that case you dont need any proxy support. If you want to set this stuff up on the cheap, you can get a stack of servers at heroku or use google app engine (I dont really know how to use either, heroku is simple though) using the free accounts. Then you would have automatically differing proxies. Crystal knows probably doesnt have a captcha.
+
+2. REST server.
+- Could work on this more, it is pretty basic, but I think you have your own framework 
+
+3. Elastic search
+- Could work on elastic search part, but we would have to talk about this more.
+
+

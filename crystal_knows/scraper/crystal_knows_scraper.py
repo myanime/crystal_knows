@@ -5,8 +5,8 @@ from selenium import webdriver
 class CrystalKnows:
     def __init__(self, data):
         #Login Details
-        self.user_name = "maria.ivanova-msk@mail.ru"
-        self.password = "test1234!"
+        self.user_name = "michaelouliel@gmail.com"
+        self.password = "Testbst123"
         self.first_name = data['first_name']
         self.last_name =  data['last_name']
         self.data = data
@@ -55,18 +55,42 @@ class CrystalKnows:
             #Returns FIRST search result
             #It is not difficult to follow the link and extract what is on the next pages, but without a pro account
             #there is nothing there to scrape. Could also scrape an array of all displayed data and do advanced searches.
-            search_result = driver.find_element_by_css_selector('div.result-text').text
+            location_company = driver.find_element_by_css_selector('div.result-text').text
 
+            driver.find_element_by_css_selector('div.result-image').click()
+            
+            personal_profile_all = driver.find_element_by_css_selector('div.profile-body-right-panel').text
+
+            driver.find_element_by_xpath('/html/body/div[2]/div[4]/div/div/a[1]').click()
+
+            time.sleep(5)
+
+            personality_all_unstructured = driver.find_element_by_css_selector('div.profile-body-right-panel').text
+
+            search_result =   "==================\n"   \
+                            + "LOCATION AND WORK\n"    \
+                            + "==================\n"   \
+                            + location_company + '\n'     \
+                            + "==================\n"   \
+                            + "HOW TO COMMUNICATE\n"   \
+                            + "==================\n"   \
+                            + personal_profile_all +'\n' \
+                            + "==================\n"   \
+                            + "   Personality    \n"   \
+                            + "==================\n"   \
+                            + personality_all_unstructured
+            
             #Updates the Response data
             self.data['about_person'] = search_result
 
+
             #Closes Browser
-            driver.quit()
+            #driver.quit()
             
             return self.data
         except:
             #Closes Browser session
-            driver.quit()
+            #driver.quit()
             
             #Returns Error message in JSON output
             self.data['about_person'] = "Error"
